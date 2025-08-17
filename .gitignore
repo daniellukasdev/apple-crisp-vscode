@@ -1,0 +1,5 @@
+.direnv
+.env
+.vscode
+*.vsix
+node_modules
