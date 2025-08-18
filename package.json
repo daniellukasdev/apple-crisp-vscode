@@ -20,7 +20,7 @@
       {
         "label": "Apple Crisp",
         "uiTheme": "vs-dark",
-        "path": "./themes/apple-crisp-color-theme.json"
+        "path": "./themes/apple-crisp.json"
       }
     ]
   }
