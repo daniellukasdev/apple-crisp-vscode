@@ -5,10 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = {
-    self,
-    nixpkgs,
-  }: let
+  outputs = {nixpkgs}: let
     systems = [
       "aarch64-darwin"
       "aarch64-linux"
@@ -25,15 +22,15 @@
           pname = "apple-crisp-vscode";
           version = "0.0.1";
 
-          src = self;
+          src = ./.;
 
           buildInputs = [pkgs.nodejs]; # Required for vsce
           nativeBuildInputs = [pkgs.vsce]; # VS Code Extension manager
 
           installPhase = ''
             vsce package
-            mkdir -p $out/share/vscode/extensions
-            cp *.vsix $out/share/vscode/extensions/
+            mkdir -p $out/share/vscode/extensions/apple-crisp-vscode
+            cp *.vsix $out/share/vscode/extensions/apple-crisp-vscode
           '';
         };
       }
