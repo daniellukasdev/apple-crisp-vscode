@@ -18,13 +18,25 @@
       # The theme's name and publisher, used by `vsce` for the build
       themeName = packageJSON.name;
       # publisher = "my-publisher";
-      inherit (packageJSON) publisher version;
+      inherit
+        (packageJSON)
+        # publisher
+        version
+        ;
 
       # The Git URL and revision of the theme's source repository
-      themeSrc = pkgs.fetchFromGitHub {
-        owner = publisher;
-        repo = themeName;
-        rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
+      # themeSrc = pkgs.fetchFromGitHub {
+      #   owner = publisher;
+      #   repo = themeName;
+      #   rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
+      #   hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
+      # };
+
+      themeSrc = pkgs.fetchgit {
+        name = themeName;
+        url = "https://github.com/daniellukasdev/apple-crisp-vscode";
+        ref = "main";
+        # rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
         hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
       };
 
