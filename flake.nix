@@ -22,9 +22,9 @@
 
       # The Git URL and revision of the theme's source repository
       themeSrc = pkgs.fetchFromGitHub {
-        owner = publisher; # Replace with the theme owner
-        repo = themeName; # Replace with the repository name
-        rev = "main"; # Replace with a specific commit hash
+        owner = publisher;
+        repo = themeName;
+        rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
         hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
       };
 
