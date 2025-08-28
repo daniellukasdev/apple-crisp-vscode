@@ -23,5 +23,8 @@
         "path": "./themes/apple-crisp.json"
       }
     ]
+  },
+  "scripts": {
+    "build": "vsce package"
   }
 }

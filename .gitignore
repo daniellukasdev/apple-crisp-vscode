@@ -3,3 +3,9 @@
 .vscode
 *.vsix
 node_modules
+result
+*.tar
+*.tar.gz
+*.tgz
+*.vsix
+*.zip

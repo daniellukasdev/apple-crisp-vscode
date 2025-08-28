@@ -1,39 +1,71 @@
 {
-  description = "A color theme for Visual Studio Code that uses colors from Apple color guidelines.";
+  description = "A Nix flake to build Apple Crisp Visual Studio Code theme from a git repository";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = {nixpkgs}: let
-    systems = [
-      "aarch64-darwin"
-      "aarch64-linux"
-      "x86_64-darwin"
-      "x86_64-linux"
-    ];
-    forEachSystem = nixpkgs.lib.genAttrs systems;
-  in {
-    packages = forEachSystem (
-      system: let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in {
-        apple-crisp-vscode = pkgs.callPackage pkgs.stdenv.mkDerivation {
-          pname = "apple-crisp-vscode";
-          version = "0.0.1";
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+  }:
+    flake-utils.lib.eachDefaultSystem (system: let
+      pkgs = nixpkgs.legacyPackages.${system};
+      packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
 
-          src = ./.;
+      # The theme's name and publisher, used by `vsce` for the build
+      themeName = packageJSON.name;
+      # publisher = "my-publisher";
+      inherit (packageJSON) publisher version;
 
-          buildInputs = [pkgs.nodejs]; # Required for vsce
-          nativeBuildInputs = [pkgs.vsce]; # VS Code Extension manager
+      # The Git URL and revision of the theme's source repository
+      themeSrc = pkgs.fetchFromGitHub {
+        owner = publisher; # Replace with the theme owner
+        repo = themeName; # Replace with the repository name
+        rev = "main"; # Replace with a specific commit hash
+        sha256 = pkgs.lib.fakeSha256; # Placeholder, replace with the correct hash later
+      };
+      # -------------------------------------------------------------
 
-          installPhase = ''
-            vsce package
-            mkdir -p $out/share/vscode/extensions/apple-crisp-vscode
-            cp *.vsix $out/share/vscode/extensions/apple-crisp-vscode
-          '';
-        };
-      }
-    );
-  };
+      nodeDependencies = pkgs.callPackage ./node-dependencies.nix {
+        inherit themeSrc;
+        inherit version;
+      };
+    in {
+      packages.default = pkgs.stdenv.mkDerivation {
+        pname = "${themeName}-vsix";
+        version = version; # The version is specified in the theme's package.json
+        src = themeSrc;
+
+        nativeBuildInputs = [
+          pkgs.vsce
+          pkgs.nodejs_20
+        ];
+
+        # We provide the node_modules as input to `vsce` via the `nodeDependencies` package
+        buildInputs = [nodeDependencies];
+
+        # VSCE requires the theme's dependencies to be in the `node_modules` directory
+        installPhase = ''
+          # Create a symbolic link to the pre-built node_modules directory
+          ln -s ${nodeDependencies}/node_modules "$src/node_modules"
+
+          # Package the extension with vsce
+          vsce package --out ${themeName}.vsix
+
+          # Move the output vsix file to the final destination
+          mkdir -p $out
+          mv ${themeName}.vsix $out/
+        '';
+      };
+
+      devShells.default = pkgs.mkShell {
+        packages = [
+          pkgs.vsce
+          pkgs.nodejs_20 # Explicitly include nodejs to provide npm
+        ];
+      };
+    });
 }
