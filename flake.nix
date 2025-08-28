@@ -32,12 +32,12 @@
       #   hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
       # };
 
-      themeSrc = pkgs.fetchgit {
+      themeSrc = builtins.fetchGit {
         name = themeName;
-        url = "https://github.com/daniellukasdev/apple-crisp-vscode";
+        url = "https://github.com/daniellukasdev/apple-crisp-vscode.git";
         ref = "main";
         # rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
-        hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
+        # hash = pkgs.lib.fakeSha256;
       };
 
       nodeDependencies = pkgs.callPackage ./node-dependencies.nix {
