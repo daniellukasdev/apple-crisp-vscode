@@ -25,9 +25,8 @@
         owner = publisher; # Replace with the theme owner
         repo = themeName; # Replace with the repository name
         rev = "main"; # Replace with a specific commit hash
-        sha256 = pkgs.lib.fakeSha256; # Placeholder, replace with the correct hash later
+        sha256 = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
       };
-      # -------------------------------------------------------------
 
       nodeDependencies = pkgs.callPackage ./node-dependencies.nix {
         inherit themeSrc;
