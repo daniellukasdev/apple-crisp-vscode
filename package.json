@@ -1,5 +1,5 @@
 {
-  "name": "apple-crisp-vscode",
+  "name": "apple-crisp",
   "displayName": "Apple Crisp",
   "description": "A color theme for Visual Studio Code that uses colors from Apple color guidelines.",
   "publisher": "daniellukasdev",
@@ -25,6 +25,7 @@
     ]
   },
   "scripts": {
-    "build": "vsce package"
+    "vscode:prepublish": "echo 'No prepublish step is needed for this simple theme'",
+    "preinstall": "npm install --no-optional --omit=dev"
   }
 }

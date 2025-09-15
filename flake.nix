@@ -2,8 +2,11 @@
   description = "A Nix flake to build Apple Crisp Visual Studio Code theme from a git repository";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    flake-utils = {
+      url = "github:numtide/flake-utils";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -13,70 +16,49 @@
   }:
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = nixpkgs.legacyPackages.${system};
-      packageJSON = builtins.fromJSON (builtins.readFile ./package.json);
+      packageJson = builtins.fromJSON (builtins.readFile ./package.json);
+      themeName = packageJson.name;
+      themeVersion = packageJson.version;
+      # packageName = "${themeName}-${themeVersion}";
+      description = packageJson.description;
 
-      # The theme's name and publisher, used by `vsce` for the build
-      themeName = packageJSON.name;
-      # publisher = "my-publisher";
-      inherit
-        (packageJSON)
-        # publisher
-        version
-        ;
+      theme-vsix = pkgs.stdenv.mkDerivation {
+        pname = "${themeName}-vsix";
+        version = themeVersion;
+        src = ./.;
 
-      # The Git URL and revision of the theme's source repository
-      # themeSrc = pkgs.fetchFromGitHub {
-      #   owner = publisher;
-      #   repo = themeName;
-      #   rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
-      #   hash = "sha256-zycMRWlOJu3LOYShI+Zw+XEMTVxAiUcg7Gdv+L045d0=";
-      # };
+        buildInputs = with pkgs; [nodejs vsce];
 
-      themeSrc = builtins.fetchGit {
-        name = themeName;
-        url = "https://github.com/daniellukasdev/apple-crisp-vscode.git";
-        ref = "main";
-        # rev = "06d1764d144dd1e57988248e5e0023d8b306c0e0";
-        # hash = pkgs.lib.fakeSha256;
-      };
+        preInstallPhase = ''${packageJson.scripts.preinstall}'';
 
-      nodeDependencies = pkgs.callPackage ./node-dependencies.nix {
-        inherit themeSrc;
-        inherit version;
+        buildPhase = ''vsce package'';
+
+        installPhase = ''
+          mkdir -p $out/share/vscode/extensions
+          mv ${themeName}-${themeVersion}.vsix $out/share/vscode/extensions/
+        '';
+
+        meta = {
+          description = "VSCode extension: ${description}";
+          homepage = packageJson.homepage;
+          license = pkgs.lib.licenses.mit;
+        };
       };
     in {
-      packages.default = pkgs.stdenv.mkDerivation {
-        pname = "${themeName}-vsix";
-        version = version; # The version is specified in the theme's package.json
-        src = themeSrc;
-
-        nativeBuildInputs = [
-          pkgs.vsce
-          pkgs.nodejs_20
-        ];
-
-        # We provide the node_modules as input to `vsce` via the `nodeDependencies` package
-        buildInputs = [nodeDependencies];
-
-        # VSCE requires the theme's dependencies to be in the `node_modules` directory
-        installPhase = ''
-          # Create a symbolic link to the pre-built node_modules directory
-          ln -s ${nodeDependencies}/node_modules "$src/node_modules"
-
-          # Package the extension with vsce
-          vsce package --out ${themeName}.vsix
-
-          # Move the output vsix file to the final destination
-          mkdir -p $out
-          mv ${themeName}.vsix $out/
-        '';
-      };
-
+      packages.default = theme-vsix;
       devShells.default = pkgs.mkShell {
-        packages = [
+        buildInputs = [
+          pkgs.nodejs
           pkgs.vsce
-          pkgs.nodejs_20 # Explicitly include nodejs to provide npm
+          pkgs.git
+          pkgs.jq
+          pkgs.libsecret
+          pkgs.glib
+          pkgs.pkg-config
         ];
+        shellHook = ''
+          echo "Run 'npm install' or 'nix-shell --command \"npm install\"' if you need node_modules."
+        '';
       };
     });
 }

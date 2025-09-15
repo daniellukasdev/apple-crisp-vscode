@@ -1,7 +1,7 @@
 .direnv
 .env
 .vscode
-*.vsix
+.vsix
 node_modules
 result
 *.tar
