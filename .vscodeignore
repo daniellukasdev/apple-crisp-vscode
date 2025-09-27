@@ -2,3 +2,13 @@
 .vscode-test/**
 .gitignore
 vsc-extension-quickstart.md
+**/*.map
+**/*.md
+.gitignore
+dist/**/*test.js
+esbuild.mjs
+eslint.config.js
+node_modules/**
+package-lock.json
+src/**
+tsconfig.json

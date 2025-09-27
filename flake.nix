@@ -1,5 +1,5 @@
 {
-  description = "A Nix flake to build Apple Crisp Visual Studio Code theme from a git repository";
+  description = "A Nix flake to build Apple Crisp Visual Studio Code theme.";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -19,8 +19,9 @@
       packageJson = builtins.fromJSON (builtins.readFile ./package.json);
       themeName = packageJson.name;
       themeVersion = packageJson.version;
-      # packageName = "${themeName}-${themeVersion}";
       description = packageJson.description;
+
+      vsixFilename = "${themeName}-${themeVersion}.vsix";
 
       theme-vsix = pkgs.stdenv.mkDerivation {
         pname = "${themeName}-vsix";
@@ -29,13 +30,13 @@
 
         buildInputs = with pkgs; [nodejs vsce];
 
-        preInstallPhase = ''${packageJson.scripts.preinstall}'';
-
-        buildPhase = ''vsce package'';
+        buildPhase = ''
+          vsce package --out ${vsixFilename}
+        '';
 
         installPhase = ''
-          mkdir -p $out/share/vscode/extensions
-          mv ${themeName}-${themeVersion}.vsix $out/share/vscode/extensions/
+          mkdir -p $out
+          mv ${vsixFilename} $out/
         '';
 
         meta = {
@@ -56,9 +57,8 @@
           pkgs.glib
           pkgs.pkg-config
         ];
-        shellHook = ''
-          echo "Run 'npm install' or 'nix-shell --command \"npm install\"' if you need node_modules."
-        '';
       };
+      # Export the filename for use in other flakes
+      lib.vsixFilename = vsixFilename;
     });
 }
