@@ -65,7 +65,6 @@
       ],
       "settings": {
         "foreground": "#a7aaff"
-        // "foreground": "#a7aaff"
       }
     },
     {
@@ -267,7 +266,6 @@
     {
       "name": "Python Arguments",
       "scope": [
-        // "constant.character.format.placeholder.other.python",
         "meta.member.access.python",
         "meta.function-call.arguments.python"
       ],
@@ -281,8 +279,6 @@
         "meta.function-call.generic.python",
         "meta.function-call.python",
         "meta.function-call.python"
-        // "meta.function-call.arguments.python",
-        // "meta.member.access.python"
       ],
       "settings": {
         "foreground": "#5cb8ff"
@@ -397,7 +393,6 @@
       "name": "Invalid",
       "scope": "invalid",
       "settings": {
-        // "background": "#ea8dff",
         "foreground": "#ebebf0"
       }
     },
@@ -405,7 +400,6 @@
       "name": "Invalid deprecated",
       "scope": "invalid.deprecated",
       "settings": {
-        // "background": "#3bddec",
         "foreground": "#ebebf0"
       }
     },
@@ -587,7 +581,7 @@
     "activityBar.inactiveForeground": "#ebebf04a",
     "activityBarBadge.foreground": "#ebebf0",
     "activityBarBadge.background": "#1e6ef4",
-    "activityBar.border": "#ebebf0ff",
+    "activityBar.border": "#48484aff",
     "activityBar.activeBackground": "#03050714",
 
     "badge.background": "#1e6ef4",
