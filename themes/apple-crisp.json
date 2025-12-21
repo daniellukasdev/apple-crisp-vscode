@@ -576,13 +576,13 @@
     }
   ],
   "colors": {
-    "activityBar.foreground": "#ebebf0",
-    "activityBar.background": "#1c1c1e",
+    "activityBar.foreground": "#a7aaff",
+    "activityBar.background": "#242426",
     "activityBar.inactiveForeground": "#ebebf04a",
     "activityBarBadge.foreground": "#ebebf0",
     "activityBarBadge.background": "#1e6ef4",
     "activityBar.border": "#48484aff",
-    "activityBar.activeBackground": "#03050714",
+    "activityBar.activeBackground": "#1c1c1ebb",
 
     "badge.background": "#1e6ef4",
     "badge.foreground": "#ebebf0",
@@ -825,7 +825,7 @@
     "list.inactiveSelectionForeground": "#ebebf0ad",
     "list.hoverBackground": "#363638",
     "list.hoverForeground": "#ebebf0",
-    "list.activeSelectionBackground": "#545456",
+    "list.activeSelectionBackground": "#363638",
     "list.activeSelectionForeground": "#ebebf0",
     "tree.indentGuidesStroke": "#585858",
     "list.dropBackground": "#363638",
@@ -875,7 +875,7 @@
     "notificationCenterHeader.background": "#1c1c1e",
     "notifications.border": "#242426",
 
-    "panel.background": "#101012",
+    "panel.background": "#1c1c1e",
     "panel.border": "#8d92ab10",
     "panelSection.border": "#1c1c1e",
     "panelTitle.activeBorder": "#a7aaff",
