@@ -2,14 +2,22 @@
 
 All notable changes to the "apple-crisp-vscode" extension will be documented in this file.
 
-## [0.3.0] - 2026-05-22
+## [0.4.0] - 2026-05-22
+
+### Changed
+
+- Background Colors
+  - List selections
+  - Minimap
+  - QuickInput and focused
+
+## [0.3.0] - 2025-12-21
 
 ### Changed
 
 - ActivityBar background colors
 - List active selection background color
 - Panel background color
-- QuickInput and focused background
 
 ## [0.2.0] - 2025-09-30
 
