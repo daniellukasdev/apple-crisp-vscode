@@ -821,7 +821,7 @@
     "inputOption.activeForeground": "#ebebf0",
     "input.placeholderForeground": "#ebebf066",
 
-    "list.inactiveSelectionBackground": "#1c1c1e",
+    "list.inactiveSelectionBackground": "#363638",
     "list.inactiveSelectionForeground": "#ebebf0ad",
     "list.hoverBackground": "#363638",
     "list.hoverForeground": "#ebebf0",
@@ -862,7 +862,8 @@
     "minimap.selectionHighlight": "#1f253ffa",
     "minimap.errorHighlight": "#ff6165",
     "minimap.warningHighlight": "#ffa056",
-    "minimap.background": "#1c1c1e",
+    "minimap.background": "#363638aa",
+    "minimapSlider.background": "#545456aa",
 
     "notifications.foreground": "#ebebf0",
     "notifications.background": "#1c1c1e",
@@ -901,6 +902,9 @@
     "pickerGroup.foreground": "#5cb8ff",
 
     "progressBar.background": "#ff6165",
+
+    "quickInput.background": "#363638",
+    "quickInputList.focusBackground": "#545456",
 
     "scrollbar.shadow": "#030507",
     "scrollbarSlider.background": "#7979793a",
